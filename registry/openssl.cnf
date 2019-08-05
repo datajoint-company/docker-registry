@@ -11,4 +11,5 @@ keyUsage = keyEncipherment, dataEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
-IP.1 = X.X.X.X
+IP.1 = {{PUBLIC_IP}}
+DNS.1 = {{SUBDOMAINS}}.{{URL}}

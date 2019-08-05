@@ -8,6 +8,10 @@ services:
   registry:
     build: ./registry
     image: main-registry:v2.0
+    environment:
+    - URL=datajoint.io
+    - SUBDOMAINS=docker
+    - PUBLIC_IP=192.168.1.205
     ports:
     - "443:5000"
     environment:
