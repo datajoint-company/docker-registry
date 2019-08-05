@@ -1,3 +1,5 @@
 *.crt
 registry/data/*
 registry/auth/*
+*.env
+
