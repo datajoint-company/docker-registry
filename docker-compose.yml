@@ -9,18 +9,17 @@ services:
     build: ./registry
     image: main-registry:v2.0
     environment:
-    - URL=datajoint.io
-    - SUBDOMAINS=docker
-    - PUBLIC_IP=192.168.1.205
-    ports:
-    - "443:5000"
-    environment:
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
       REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
       REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+      URL: datajoint.io
+      SUBDOMAINS: docker
+      PUBLIC_IP: 192.168.1.205
+    ports:
+    - "443:5000"
     volumes:
       - ./registry/auth:/auth
       - ./registry/data:/data
