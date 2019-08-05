@@ -1,0 +1,3 @@
+*.crt
+registry/data/*
+registry/auth/*
