@@ -16,7 +16,7 @@ services:
       REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
       REGISTRY_HTTP_TLS_KEY: /certs/domain.key
       URL: datajoint.io
-      SUBDOMAINS: docker
+      SUBDOMAINS: raphaelg
       PUBLIC_IP: 192.168.1.205
     ports:
     - "443:5000"
