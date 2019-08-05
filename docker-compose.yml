@@ -27,30 +27,30 @@ services:
       - /docker-mnt/docker-registry/data:/data
     networks:
       - main     
- nginx:
- build: ./nginx
-  image: registry-nginx:v1.0
-  environment:
-    - PUID=1000
-    - PGID=1000
-    - EMAIL=raphael@vathes.com
-    - URL=datajoint.io
-    - SUBDOMAINS=raphaelg
-    - TZ=Europe/London
-    - ONLY_SUBDOMAINS=true
-    - STAGING=true
-  ports:
-    - "80:80"
-    - "443:443"
-  # cap_add:
-  #   - NET_ADMIN
-  # volumes:
-  #   - ./nginx-letsencrypt/app.conf:/config/nginx/site-confs/app.conf
-  networks:
-    - main   
-  # depends_on:
-  #   registry:
-  #     condition: service_healthy
+  nginx:
+  build: ./nginx
+    image: registry-nginx:v1.0
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - EMAIL=raphael@vathes.com
+      - URL=datajoint.io
+      - SUBDOMAINS=raphaelg
+      - TZ=Europe/London
+      - ONLY_SUBDOMAINS=true
+      - STAGING=true
+    ports:
+      - "80:80"
+      - "443:443"
+    # cap_add:
+    #   - NET_ADMIN
+    # volumes:
+    #   - ./nginx-letsencrypt/app.conf:/config/nginx/site-confs/app.conf
+    networks:
+      - main   
+    # depends_on:
+    #   registry:
+    #     condition: service_healthy
 networks:
     main:
         ipam:
