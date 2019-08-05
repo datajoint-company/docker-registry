@@ -21,6 +21,8 @@ services:
     ports:
     - "443:5000"
     volumes:
+      # - ./registry/auth:/auth
+      # - ./registry/data:/data
       - /docker-mnt/docker-registry/auth:/auth
       - /docker-mnt/docker-registry/data:/data
     networks:
