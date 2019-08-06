@@ -6,6 +6,7 @@
 version: '2.4'
 services:
   registry:
+    restart: always
     build: ./registry
     image: main-registry:v2.0
     environment:
@@ -28,6 +29,7 @@ services:
     networks:
       - main     
   nginx:
+    restart: always
     build: ./nginx
     image: registry-nginx:v1.0
     environment:
