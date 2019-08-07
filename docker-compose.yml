@@ -16,8 +16,8 @@ services:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
       REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
       REGISTRY_HTTP_TLS_KEY: /certs/domain.key
-      URL: datajoint.io
-      SUBDOMAINS: raphaelg
+      URL: vathes.com
+      SUBDOMAINS: registry
       PUBLIC_IP: 192.168.1.205
     # ports:
     # - "443:5000"
@@ -36,8 +36,8 @@ services:
       - PUID=1000
       - PGID=1000
       - EMAIL=raphael@vathes.com
-      - URL=datajoint.io
-      - SUBDOMAINS=raphaelg
+      - URL=vathes.com
+      - SUBDOMAINS=registry
       - TZ=Europe/London
       - ONLY_SUBDOMAINS=true
       # - STAGING=true

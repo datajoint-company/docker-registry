@@ -12,3 +12,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 #     CMD           \
 #         curl --fail https://localhost:443 || exit 1
 #         # curl --fail -k https://localhost:443 || exit 1
+# curl --fail https://localhost:5000/v2/_catalog -H 'Authorization: Basic base64encoded' || exit 1
