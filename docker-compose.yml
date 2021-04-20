@@ -16,6 +16,7 @@ services:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
       REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
       REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+      REGISTRY_VALIDATION_DISABLED: 'true'
       URL: vathes.com
       SUBDOMAINS: registry
       PUBLIC_IP: 192.168.1.205
