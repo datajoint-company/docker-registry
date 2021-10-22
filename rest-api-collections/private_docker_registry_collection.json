@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "84b57d7a-9946-44dd-a9b4-ffb83dddba50",
+		"name": "Docker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Query Images",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{pword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{target}}/v2/_catalog",
+					"protocol": "https",
+					"host": [
+						"{{target}}"
+					],
+					"path": [
+						"v2",
+						"_catalog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Tags",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{pword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{target}}/v2/{{project}}/{{service}}/tags/list",
+					"protocol": "https",
+					"host": [
+						"{{target}}"
+					],
+					"path": [
+						"v2",
+						"{{project}}",
+						"{{service}}",
+						"tags",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calculate Tag Size",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab18d838-3fa0-4d05-95ed-7d9466231375",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody).layers;",
+							"",
+							"var total = 0;",
+							"jsonData.forEach(function(e) { total+=e.size });",
+							"",
+							"console.log(`Total Size: ${total/1000/1000}[MB]`);",
+							"tests[`total_size = ${total/1000/1000}[MB]`] = true;",
+							"// console.log(`Total Size: ${total/1024/1024}[MB]`);",
+							"// tests[`total_size = ${total/1024/1024}[MB]`] = true;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{pword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/vnd.docker.distribution.manifest.v2+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{target}}/v2/{{project}}/{{service}}/manifests/{{tag}}",
+					"protocol": "https",
+					"host": [
+						"{{target}}"
+					],
+					"path": [
+						"v2",
+						"{{project}}",
+						"{{service}}",
+						"manifests",
+						"{{tag}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

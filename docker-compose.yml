@@ -1,5 +1,5 @@
-# docker run -it --rm --entrypoint htpasswd registry:2 -Bn USER | grep '\$' | sudo tee -a ./registry/auth/registry.password
-# docker run --rm --entrypoint htpasswd registry:2 -Bbn testuser testpassword | sudo tee -a ./registry/auth/registry.password
+# docker run -it --rm --entrypoint htpasswd registry:2 -Bn USER | grep '\$' | sudo tee -a /docker-mnt/docker-registry/auth/registry.password
+# docker run --rm --entrypoint htpasswd registry:2 -Bbn USER PASSWORD | sudo tee -a /docker-mnt/docker-registry/auth/registry.password
 # docker cp docker-registry_registry_1_*:/certs/domain.crt ./domain.crt
 # sudo scp -P # rguzman@X.X.X.X:/home/rguzman/Documents/docker-compose/docker-registry/domain.crt /etc/docker/certs.d/X.X.X.X/
 # docker-compose up -d --build
