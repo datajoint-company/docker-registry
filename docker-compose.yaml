@@ -1,0 +1,93 @@
+## Optional
+# create a separated volume for docker image data
+# mount volume to /docker-mnt directory
+## Setup private docker registry
+# mkdir -p /docker-mnt/auth
+# mkdir -p /docker-mnt/data
+# docker run --entrypoint htpasswd httpd:2 -Bbn <username> <password> > /docker-mnt/auth/htpasswd
+
+# e.g. if you want to serve your private registry at registry.example.com
+# SUBDOMAIN=<registry> URL=<exmaple.com> PUBLIC_IP=<X.X.X.X> STAGING=true docker compose up -d  
+
+version: "2.1"
+services:
+  swag:
+    build:
+      context: ./nginx
+      args:
+        - SUBDOMAIN=${SUBDOMAIN}
+        - URL=${URL}
+    image: registry-nginx:v1.0
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - URL=${URL}
+      - VALIDATION=http
+      - SUBDOMAINS=${SUBDOMAIN} #optional
+      #- CERTPROVIDER= #optional
+      #- DNSPLUGIN=cloudflare #optional
+      #- PROPAGATION= #optional
+      - EMAIL=drew@datajoint.com #optional
+      - ONLY_SUBDOMAINS=true #optional
+      #- EXTRA_DOMAINS= #optional
+      - STAGING=${STAGING} #optional
+    ports:
+      - 443:443
+      - 80:80 #optional
+    volumes:
+      - cert:/config/etc/letsencrypt:rw # swag would generate cert here
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - bash
+        - -c
+        - |
+          cd /config/letsencrypt/live/${SUBDOMAIN}.${URL}/ &&
+          openssl verify -untrusted chain.pem cert.pem # STAGING=true would fail this check
+      interval: 5s
+      timeout: 60s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - main
+
+  registry:
+    restart: always
+    image: registry:2
+    container_name: registry
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+      REGISTRY_HTTP_TLS_CERTIFICATE: /cert/live/${SUBDOMAIN}.${URL}/fullchain.pem
+      REGISTRY_HTTP_TLS_KEY: /cert/live/${SUBDOMAIN}.${URL}/privkey.pem
+      REGISTRY_VALIDATION_DISABLED: 'true'
+      URL: ${URL}
+      SUBDOMAINS: ${SUBDOMAIN}
+      PUBLIC_IP: ${PUBLIC_IP}
+    depends_on:
+      swag:
+        condition: service_healthy
+
+    volumes:
+      - /docker-mnt/auth:/auth
+      - /docker-mnt/data:/data
+      # mount swag generated cert and reference by
+      #  REGISTRY_HTTP_TLS_CERTIFICATE
+      #  REGISTRY_HTTP_TLS_KEY
+      - cert:/cert:ro
+    networks:
+      - main
+
+volumes:
+  cert:
+    name: registry-cert
+    driver: local
+
+networks:
+  main:
