@@ -11,13 +11,17 @@
 - mount volume to /docker-mnt directory
 
 ### Setup directories and password
-# mkdir -p /docker-mnt/auth
-# mkdir -p /docker-mnt/data
-# docker run --entrypoint htpasswd httpd:2 -Bbn <username> <password> > /docker-mnt/auth/htpasswd
+```
+mkdir -p /docker-mnt/auth
+mkdir -p /docker-mnt/data
+docker run --entrypoint htpasswd httpd:2 -Bbn <username> <password> > /docker-mnt/auth/htpasswd
+```
 
 ### Run it
+```
 # e.g. if you want to serve your private registry at registry.example.com
-# SUBDOMAIN=<registry> URL=<exmaple.com> PUBLIC_IP=<X.X.X.X> STAGING=true docker compose up -d 
+SUBDOMAIN=<registry> URL=<exmaple.com> PUBLIC_IP=<X.X.X.X> STAGING=true docker compose up -d
+```
 > See more details in the comments of `docker-compose.yaml`
 
 ## Limitation
